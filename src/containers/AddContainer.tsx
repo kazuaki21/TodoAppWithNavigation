@@ -4,7 +4,7 @@ import Title from "../components/Title";
 import TextButton from "../components/TextButton";
 import TextInputOutline from "../components/TextInput";
 
-type AddContainerProps = {
+export type AddContainerProps = {
   onPressCancel?: () => void;
   onPressAdd?: (title: string, description: string) => void;
 };

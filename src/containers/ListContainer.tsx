@@ -7,7 +7,7 @@ import Title from "../components/Title";
 import IconButton from "../components/IconButton";
 import TodoList from "../components/TodoList";
 
-type ListContainerProps = {
+export type ListContainerProps = {
   todos: Todo[];
   onPressPlus?: () => void;
   onPressCheck?: (todoId: number) => void;
