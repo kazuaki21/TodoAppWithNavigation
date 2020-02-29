@@ -6,8 +6,8 @@ import ListContainer, { ListContainerProps } from "../containers/ListContainer";
 import AddContainer, { AddContainerProps } from "../containers/AddContainer";
 
 export type RootStackParamList = {
-  List: ListContainerProps;
-  Add: AddContainerProps;
+  List: undefined;
+  Add: undefined;
 };
 
 const Stack = createStackNavigator<RootStackParamList>();
@@ -20,15 +20,6 @@ const RootStack: FC<RootStackProps> = ({
   onPressDelete = () => undefined,
   onPressAdd = () => undefined
 }) => {
-  const ListContainerParams: ListContainerProps = {
-    todos,
-    onPressCheck,
-    onPressDelete
-  };
-  const AddContainerParams: AddContainerProps = {
-    onPressAdd
-  };
-
   return (
     <Stack.Navigator
       initialRouteName="List"
@@ -37,16 +28,18 @@ const RootStack: FC<RootStackProps> = ({
         headerTitleStyle: styles.header_title
       }}
     >
-      <Stack.Screen
-        name="List"
-        component={ListContainer}
-        initialParams={ListContainerParams}
-      />
-      <Stack.Screen
-        name="Add"
-        component={AddContainer}
-        initialParams={AddContainerParams}
-      />
+      <Stack.Screen name="List">
+        {() => (
+          <ListContainer
+            todos={todos}
+            onPressCheck={onPressCheck}
+            onPressDelete={onPressDelete}
+          />
+        )}
+      </Stack.Screen>
+      <Stack.Screen name="Add">
+        {() => <AddContainer onPressAdd={onPressAdd} />}
+      </Stack.Screen>
     </Stack.Navigator>
   );
 };

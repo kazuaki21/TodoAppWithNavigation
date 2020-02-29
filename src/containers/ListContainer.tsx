@@ -1,6 +1,6 @@
 import React, { FC, useEffect } from "react";
 import { StyleSheet, View } from "react-native";
-import { useNavigation, useRoute, RouteProp } from "@react-navigation/native";
+import { useNavigation } from "@react-navigation/native";
 import { StackNavigationProp } from "@react-navigation/stack";
 import { RootStackParamList } from "../navigation/RootStack";
 import { Todo } from "../types";
@@ -9,7 +9,6 @@ import IconButton from "../components/IconButton";
 import TodoList from "../components/TodoList";
 
 type NavigationProps = StackNavigationProp<RootStackParamList>;
-type RouteProps = RouteProp<RootStackParamList, "List">;
 
 export type ListContainerProps = {
   todos: Todo[];
@@ -17,17 +16,12 @@ export type ListContainerProps = {
   onPressDelete?: (todoId: number) => void;
 };
 
-const ListContainer: FC<ListContainerProps> = (
-  {
-    // todos = [],
-    // onPressCheck = () => undefined,
-    // onPressDelete = () => undefined
-  }
-) => {
+const ListContainer: FC<ListContainerProps> = ({
+  todos = [],
+  onPressCheck = () => undefined,
+  onPressDelete = () => undefined
+}) => {
   const { navigate, setOptions } = useNavigation<NavigationProps>();
-  const {
-    params: { todos, onPressCheck, onPressDelete }
-  } = useRoute<RouteProps>();
 
   const handlePressPlus = () => {
     navigate("Add");
