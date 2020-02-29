@@ -1,32 +1,35 @@
 import React, { FC, useState } from "react";
 import { StyleSheet, View } from "react-native";
-import Title from "../components/Title";
+import { useNavigation } from "@react-navigation/native";
+import { StackNavigationProp } from "@react-navigation/stack";
+import { RootStackParamList } from "../navigation/RootStack";
+
 import TextButton from "../components/TextButton";
 import TextInputOutline from "../components/TextInput";
 
+type NavigationProps = StackNavigationProp<RootStackParamList>;
+
 export type AddContainerProps = {
-  onPressCancel?: () => void;
   onPressAdd?: (title: string, description: string) => void;
 };
 
 const AddContainer: FC<AddContainerProps> = ({
-  onPressCancel = () => undefined,
   onPressAdd = () => undefined
 }) => {
   const [title, setTitle] = useState("");
   const [description, setDescription] = useState("");
 
-  const resetInput = () => {
-    setTitle("");
-    setDescription("");
+  const { goBack } = useNavigation<NavigationProps>();
+
+  const handlePressAdd = () => {
+    if (!title || !description) return;
+
+    onPressAdd(title, description);
+    goBack();
   };
 
   return (
-    <View style={styles.modal}>
-      <TextButton onPress={onPressCancel} containerStyle={styles.cancel_button}>
-        Cancel
-      </TextButton>
-      <Title>Add Todo</Title>
+    <View style={styles.container}>
       <TextInputOutline
         placeholder="Title"
         value={title}
@@ -42,15 +45,7 @@ const AddContainer: FC<AddContainerProps> = ({
         containerStyle={styles.todo_description}
       />
       <View style={styles.add_button}>
-        <TextButton
-          onPress={() => {
-            if (!title || !description) return;
-
-            onPressAdd(title, description);
-            resetInput();
-          }}
-          style={styles.add}
-        >
+        <TextButton onPress={handlePressAdd} style={styles.add}>
           Add
         </TextButton>
       </View>
@@ -61,16 +56,11 @@ const AddContainer: FC<AddContainerProps> = ({
 export default AddContainer;
 
 const styles = StyleSheet.create({
-  safearea: {
-    flex: 1
-  },
   container: {
-    flex: 1
-  },
-  modal: {
     flex: 1,
     alignItems: "center",
-    justifyContent: "center"
+    justifyContent: "center",
+    backgroundColor: "white"
   },
   todo_title: { marginTop: 70 },
   todo_description: { marginTop: 30 },
