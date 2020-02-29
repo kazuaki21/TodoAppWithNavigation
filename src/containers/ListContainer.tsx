@@ -1,54 +1,67 @@
-import React, { FC } from "react";
-import { StyleSheet, SafeAreaView, View } from "react-native";
-
+import React, { FC, useEffect } from "react";
+import { StyleSheet, View } from "react-native";
+import { useNavigation, useRoute, RouteProp } from "@react-navigation/native";
+import { StackNavigationProp } from "@react-navigation/stack";
+import { RootStackParamList } from "../navigation/RootStack";
 import { Todo } from "../types";
 
-import Title from "../components/Title";
 import IconButton from "../components/IconButton";
 import TodoList from "../components/TodoList";
 
+type NavigationProps = StackNavigationProp<RootStackParamList>;
+type RouteProps = RouteProp<RootStackParamList, "List">;
+
 export type ListContainerProps = {
   todos: Todo[];
-  onPressPlus?: () => void;
   onPressCheck?: (todoId: number) => void;
   onPressDelete?: (todoId: number) => void;
 };
 
-const ListContainer: FC<ListContainerProps> = ({
-  todos = [],
-  onPressPlus = () => undefined,
-  onPressCheck = () => undefined,
-  onPressDelete = () => undefined
-}) => {
-  return (
-    <SafeAreaView style={styles.safearea}>
-      <View style={styles.container}>
-        <View style={styles.header_container}>
-          <Title>Todo List</Title>
-          <IconButton
-            type="plus"
-            onPress={onPressPlus}
-            style={styles.plus_button}
-          />
-        </View>
-        <TodoList
-          todos={todos}
-          onPressCheck={onPressCheck}
-          onPressDelete={onPressDelete}
+const ListContainer: FC<ListContainerProps> = (
+  {
+    // todos = [],
+    // onPressCheck = () => undefined,
+    // onPressDelete = () => undefined
+  }
+) => {
+  const { navigate, setOptions } = useNavigation<NavigationProps>();
+  const {
+    params: { todos, onPressCheck, onPressDelete }
+  } = useRoute<RouteProps>();
+
+  const handlePressPlus = () => {
+    navigate("Add");
+  };
+
+  useEffect(() => {
+    setOptions({
+      headerRight: () => (
+        <IconButton
+          type="plus"
+          onPress={handlePressPlus}
+          style={styles.plus_button}
         />
-      </View>
-    </SafeAreaView>
+      )
+    });
+  }, []);
+
+  return (
+    <View style={styles.container}>
+      <TodoList
+        todos={todos}
+        onPressCheck={onPressCheck}
+        onPressDelete={onPressDelete}
+      />
+    </View>
   );
 };
 
 export default ListContainer;
 
 const styles = StyleSheet.create({
-  safearea: {
-    flex: 1
-  },
   container: {
-    flex: 1
+    flex: 1,
+    backgroundColor: "white"
   },
   header_container: {
     alignItems: "center",
@@ -61,8 +74,6 @@ const styles = StyleSheet.create({
     borderColor: "gray"
   },
   plus_button: {
-    position: "absolute",
-    top: 10,
-    right: 30
+    marginRight: 30
   }
 });

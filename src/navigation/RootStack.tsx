@@ -1,4 +1,5 @@
 import React, { FC } from "react";
+import { StyleSheet } from "react-native";
 import { createStackNavigator } from "@react-navigation/stack";
 
 import ListContainer, { ListContainerProps } from "../containers/ListContainer";
@@ -29,7 +30,13 @@ const RootStack: FC<RootStackProps> = ({
   };
 
   return (
-    <Stack.Navigator initialRouteName="List">
+    <Stack.Navigator
+      initialRouteName="List"
+      headerMode="screen"
+      screenOptions={{
+        headerTitleStyle: styles.header_title
+      }}
+    >
       <Stack.Screen
         name="List"
         component={ListContainer}
@@ -45,3 +52,11 @@ const RootStack: FC<RootStackProps> = ({
 };
 
 export default RootStack;
+
+const styles = StyleSheet.create({
+  header_title: {
+    fontSize: 28,
+    fontWeight: "bold",
+    color: "royalblue"
+  }
+});
