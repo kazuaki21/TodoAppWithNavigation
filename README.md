@@ -1,6 +1,6 @@
 # はじめに
 
-[こちら](https://github.com/kazuaki21/TodoApp)の続編になります。
+[こちら](https://github.com/alternacrow/TodoApp)の続編になります。
 
 ## react-navigation について
 
@@ -13,7 +13,7 @@ react-native-router-flux のような書き方に、大幅に変更された。
 # Todo アプリに react-navigation を導入してみる
 
 レポジトリはこちら
-https://github.com/kazuaki21/TodoAppWithNavigation
+https://github.com/alternacrow/TodoAppWithNavigation
 
 ## 画面構成
 
@@ -34,7 +34,7 @@ https://github.com/kazuaki21/TodoAppWithNavigation
 - プロジェクトの初期化
 
 ```
-git clone -b base git@github.com:kazuaki21/TodoAppWithNavigation.git
+git clone -b base git@github.com:alternacrow/TodoAppWithNavigation.git
 cd TodoAppwithNavigation
 yarn install
 ```
